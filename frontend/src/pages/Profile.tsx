@@ -46,10 +46,10 @@ export default function Profile() {
 
   return (
     <div>
-      <h2 style={{ color: '#1a365d', marginBottom: '24px' }}>Profilo Utente</h2>
+      <h2 style={{ color: '#333', marginBottom: '24px' }}>Profilo Utente</h2>
 
       <div style={cardStyle}>
-        <h3 style={{ margin: '0 0 16px 0' }}>Informazioni</h3>
+        <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Informazioni</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
           <div>
             <label style={labelStyle}>Nome</label>
@@ -72,7 +72,7 @@ export default function Profile() {
 
       {isLocal && (
         <div style={cardStyle}>
-          <h3 style={{ margin: '0 0 16px 0' }}>Cambia Password</h3>
+          <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Cambia Password</h3>
           <form onSubmit={handleChangePassword} style={{ maxWidth: '400px' }}>
             <div style={{ marginBottom: '16px' }}>
               <label style={labelStyle}>Password attuale</label>
@@ -87,7 +87,7 @@ export default function Profile() {
               <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={inputStyle} required />
             </div>
             {error && <p style={{ color: '#e53e3e', marginBottom: '12px' }}>{error}</p>}
-            {message && <p style={{ color: '#38a169', marginBottom: '12px' }}>{message}</p>}
+            {message && <p style={{ color: '#4CAF50', marginBottom: '12px' }}>{message}</p>}
             <button type="submit" disabled={loading} style={btnStyle}>
               {loading ? 'Salvataggio...' : 'Cambia Password'}
             </button>
@@ -99,18 +99,18 @@ export default function Profile() {
 }
 
 const cardStyle: React.CSSProperties = {
-  background: 'white', padding: '24px', borderRadius: '8px',
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)', marginBottom: '24px',
+  background: 'white', padding: '24px', borderRadius: '10px',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06)', marginBottom: '24px', border: '1px solid #e8ecf1',
 };
 const labelStyle: React.CSSProperties = {
-  display: 'block', marginBottom: '4px', fontSize: '13px', color: '#718096', fontWeight: 500,
+  display: 'block', marginBottom: '4px', fontSize: '13px', color: '#888', fontWeight: 500,
 };
-const valueStyle: React.CSSProperties = { fontSize: '15px', color: '#2d3748' };
+const valueStyle: React.CSSProperties = { fontSize: '15px', color: '#333' };
 const inputStyle: React.CSSProperties = {
-  width: '100%', padding: '8px 12px', border: '1px solid #e2e8f0',
-  borderRadius: '4px', fontSize: '14px', boxSizing: 'border-box',
+  width: '100%', padding: '8px 12px', border: '1px solid #ddd',
+  borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box',
 };
 const btnStyle: React.CSSProperties = {
-  padding: '10px 20px', background: '#1a365d', color: 'white',
-  border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500,
+  padding: '10px 20px', background: '#00BCD4', color: 'white',
+  border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600,
 };

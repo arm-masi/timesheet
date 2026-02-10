@@ -93,11 +93,11 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: '24px', color: '#1a365d' }}>Dashboard</h2>
+      <h2 style={{ marginBottom: '24px', color: '#333' }}>Dashboard</h2>
 
       {/* Clock In/Out Card */}
       <div style={cardStyle}>
-        <h3 style={{ margin: '0 0 16px 0', color: '#2d3748' }}>
+        <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
           Timbratura - {new Date().toLocaleDateString('it-IT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </h3>
 
@@ -107,7 +107,7 @@ export default function Dashboard() {
               <span style={badgeGreen}>Entrata: {todayAttendance.clock_in}</span>
             )}
             {todayAttendance.clock_out && (
-              <span style={badgeBlue}>Uscita: {todayAttendance.clock_out}</span>
+              <span style={badgeCyan}>Uscita: {todayAttendance.clock_out}</span>
             )}
           </div>
         )}
@@ -124,7 +124,7 @@ export default function Dashboard() {
             </button>
           )}
           {todayAttendance?.clock_in && todayAttendance?.clock_out && (
-            <span style={{ color: '#38a169', fontWeight: 500 }}>Giornata completata</span>
+            <span style={{ color: '#4CAF50', fontWeight: 500 }}>Giornata completata</span>
           )}
         </div>
 
@@ -137,7 +137,7 @@ export default function Dashboard() {
           {/* Month navigation */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <button onClick={prevMonth} style={navBtnStyle}>&larr; Mese precedente</button>
-            <h3 style={{ margin: 0, color: '#2d3748' }}>
+            <h3 style={{ margin: 0, color: '#333' }}>
               Riepilogo {new Date(year, month - 1).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
             </h3>
             <button onClick={nextMonth} disabled={isCurrentMonth} style={{ ...navBtnStyle, opacity: isCurrentMonth ? 0.4 : 1 }}>
@@ -185,7 +185,7 @@ export default function Dashboard() {
                         </span>
                       )}
                       {!d.is_missing && !d.has_justification && d.clock_in && d.clock_out && (
-                        <span style={{ color: '#38a169' }}>OK</span>
+                        <span style={{ color: '#4CAF50' }}>OK</span>
                       )}
                     </td>
                     <td style={tdStyle}>
@@ -208,7 +208,7 @@ export default function Dashboard() {
                         </div>
                       )}
                       {d.has_justification && d.deficit_hours > 0 && !d.is_missing && (
-                        <span style={{ fontSize: '12px', color: '#718096' }}>Coperto</span>
+                        <span style={{ fontSize: '12px', color: '#888' }}>Coperto</span>
                       )}
                     </td>
                   </tr>
@@ -224,19 +224,19 @@ export default function Dashboard() {
 
 function StatCard({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div style={{ background: '#f7fafc', padding: '16px', borderRadius: '6px', textAlign: 'center' }}>
-      <div style={{ fontSize: '24px', fontWeight: 'bold', color: color || '#2d3748' }}>{value}</div>
-      <div style={{ fontSize: '13px', color: '#718096', marginTop: '4px' }}>{label}</div>
+    <div style={{ background: '#f4f6f9', padding: '16px', borderRadius: '8px', textAlign: 'center', border: '1px solid #e8ecf1' }}>
+      <div style={{ fontSize: '24px', fontWeight: 'bold', color: color || '#00BCD4' }}>{value}</div>
+      <div style={{ fontSize: '13px', color: '#888', marginTop: '4px' }}>{label}</div>
     </div>
   );
 }
 
 function statusColor(status: string | null): string {
   switch (status) {
-    case 'approvato': return '#38a169';
+    case 'approvato': return '#4CAF50';
     case 'rifiutato': return '#e53e3e';
     case 'in_attesa': return '#d69e2e';
-    default: return '#718096';
+    default: return '#888';
   }
 }
 
@@ -252,17 +252,18 @@ function statusLabel(status: string | null): string {
 const cardStyle: React.CSSProperties = {
   background: 'white',
   padding: '24px',
-  borderRadius: '8px',
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  borderRadius: '10px',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
   marginBottom: '24px',
+  border: '1px solid #e8ecf1',
 };
 
 const clockInBtnStyle: React.CSSProperties = {
   padding: '12px 32px',
-  background: '#38a169',
+  background: '#00BCD4',
   color: 'white',
   border: 'none',
-  borderRadius: '6px',
+  borderRadius: '8px',
   fontSize: '15px',
   cursor: 'pointer',
   fontWeight: 600,
@@ -270,10 +271,10 @@ const clockInBtnStyle: React.CSSProperties = {
 
 const clockOutBtnStyle: React.CSSProperties = {
   padding: '12px 32px',
-  background: '#e53e3e',
+  background: '#E6007E',
   color: 'white',
   border: 'none',
-  borderRadius: '6px',
+  borderRadius: '8px',
   fontSize: '15px',
   cursor: 'pointer',
   fontWeight: 600,
@@ -281,10 +282,10 @@ const clockOutBtnStyle: React.CSSProperties = {
 
 const navBtnStyle: React.CSSProperties = {
   padding: '8px 16px',
-  background: '#edf2f7',
-  color: '#4a5568',
-  border: '1px solid #e2e8f0',
-  borderRadius: '4px',
+  background: '#f4f6f9',
+  color: '#555',
+  border: '1px solid #ddd',
+  borderRadius: '6px',
   cursor: 'pointer',
   fontSize: '13px',
   fontWeight: 500,
@@ -292,9 +293,9 @@ const navBtnStyle: React.CSSProperties = {
 
 const ferieBtnStyle: React.CSSProperties = {
   padding: '3px 10px',
-  background: '#ebf8ff',
-  color: '#2b6cb0',
-  border: '1px solid #bee3f8',
+  background: '#e0f7fa',
+  color: '#00838f',
+  border: '1px solid #b2ebf2',
   borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '12px',
@@ -303,9 +304,9 @@ const ferieBtnStyle: React.CSSProperties = {
 
 const permessoBtnStyle: React.CSSProperties = {
   padding: '3px 10px',
-  background: '#faf5ff',
-  color: '#6b46c1',
-  border: '1px solid #e9d8fd',
+  background: '#fce4ec',
+  color: '#c2185b',
+  border: '1px solid #f8bbd0',
   borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '12px',
@@ -313,19 +314,19 @@ const permessoBtnStyle: React.CSSProperties = {
 };
 
 const badgeGreen: React.CSSProperties = {
-  background: '#f0fff4',
-  color: '#276749',
+  background: '#e8f5e9',
+  color: '#2e7d32',
   padding: '6px 12px',
-  borderRadius: '4px',
+  borderRadius: '6px',
   fontSize: '14px',
   fontWeight: 500,
 };
 
-const badgeBlue: React.CSSProperties = {
-  background: '#ebf8ff',
-  color: '#2a4365',
+const badgeCyan: React.CSSProperties = {
+  background: '#e0f7fa',
+  color: '#00838f',
   padding: '6px 12px',
-  borderRadius: '4px',
+  borderRadius: '6px',
   fontSize: '14px',
   fontWeight: 500,
 };
@@ -339,13 +340,13 @@ const tableStyle: React.CSSProperties = {
 const thStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '10px 12px',
-  borderBottom: '2px solid #e2e8f0',
-  color: '#4a5568',
+  borderBottom: '2px solid #e8ecf1',
+  color: '#555',
   fontSize: '13px',
   fontWeight: 600,
 };
 
 const tdStyle: React.CSSProperties = {
   padding: '10px 12px',
-  borderBottom: '1px solid #e2e8f0',
+  borderBottom: '1px solid #e8ecf1',
 };

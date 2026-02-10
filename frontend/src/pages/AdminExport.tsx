@@ -34,10 +34,10 @@ export default function AdminExport() {
 
   return (
     <div>
-      <h2 style={{ color: '#1a365d', marginBottom: '24px' }}>Export Paghe</h2>
+      <h2 style={{ color: '#333', marginBottom: '24px' }}>Export Paghe</h2>
 
       <div style={cardStyle}>
-        <p style={{ color: '#4a5568', marginBottom: '24px' }}>
+        <p style={{ color: '#555', marginBottom: '24px' }}>
           Genera il report mensile delle paghe per tutti i dipendenti attivi.
           Il report include: giorni lavorati, ferie, permessi e ore totali.
         </p>
@@ -65,7 +65,7 @@ export default function AdminExport() {
           <button onClick={() => handleExport('csv')} disabled={loading} style={exportBtnStyle}>
             {loading ? 'Export...' : 'Scarica CSV'}
           </button>
-          <button onClick={() => handleExport('excel')} disabled={loading} style={{ ...exportBtnStyle, background: '#276749' }}>
+          <button onClick={() => handleExport('excel')} disabled={loading} style={{ ...exportBtnStyle, background: '#4CAF50' }}>
             {loading ? 'Export...' : 'Scarica Excel'}
           </button>
         </div>
@@ -74,10 +74,10 @@ export default function AdminExport() {
   );
 }
 
-const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' };
-const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#718096', fontWeight: 500 };
-const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '14px' };
+const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: '1px solid #e8ecf1' };
+const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#888', fontWeight: 500 };
+const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' };
 const exportBtnStyle: React.CSSProperties = {
-  padding: '12px 24px', background: '#1a365d', color: 'white',
-  border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 600, fontSize: '14px',
+  padding: '12px 24px', background: '#00BCD4', color: 'white',
+  border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '14px',
 };

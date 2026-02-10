@@ -40,7 +40,7 @@ export default function AdminJustifications() {
 
   return (
     <div>
-      <h2 style={{ color: '#1a365d', marginBottom: '24px' }}>Gestione Giustificativi</h2>
+      <h2 style={{ color: '#333', marginBottom: '24px' }}>Gestione Giustificativi</h2>
 
       <div style={cardStyle}>
         <div style={{ marginBottom: '16px' }}>
@@ -68,7 +68,7 @@ export default function AdminJustifications() {
           </thead>
           <tbody>
             {justifications.length === 0 && (
-              <tr><td colSpan={6} style={{ ...tdStyle, textAlign: 'center', color: '#a0aec0' }}>Nessun giustificativo</td></tr>
+              <tr><td colSpan={6} style={{ ...tdStyle, textAlign: 'center', color: '#aaa' }}>Nessun giustificativo</td></tr>
             )}
             {justifications.map((j) => (
               <tr key={j.id}>
@@ -77,8 +77,8 @@ export default function AdminJustifications() {
                 <td style={tdStyle}>
                   <span style={{
                     padding: '2px 8px', borderRadius: '4px', fontSize: '13px',
-                    background: j.type === 'ferie' ? '#ebf8ff' : '#faf5ff',
-                    color: j.type === 'ferie' ? '#2b6cb0' : '#6b46c1',
+                    background: j.type === 'ferie' ? '#e0f7fa' : '#fce4ec',
+                    color: j.type === 'ferie' ? '#00838f' : '#c2185b',
                   }}>
                     {j.type === 'ferie' ? 'Ferie' : 'Permesso'}
                   </span>
@@ -125,17 +125,17 @@ function statusLabel(s: string) {
   switch (s) { case 'in_attesa': return 'In Attesa'; case 'approvato': return 'Approvato'; case 'rifiutato': return 'Rifiutato'; default: return s; }
 }
 function statusBg(s: string) {
-  switch (s) { case 'approvato': return '#f0fff4'; case 'rifiutato': return '#fff5f5'; case 'in_attesa': return '#fffff0'; default: return '#f7fafc'; }
+  switch (s) { case 'approvato': return '#e8f5e9'; case 'rifiutato': return '#ffebee'; case 'in_attesa': return '#fff8e1'; default: return '#f4f6f9'; }
 }
 function statusFg(s: string) {
-  switch (s) { case 'approvato': return '#276749'; case 'rifiutato': return '#9b2c2c'; case 'in_attesa': return '#975a16'; default: return '#4a5568'; }
+  switch (s) { case 'approvato': return '#2e7d32'; case 'rifiutato': return '#c62828'; case 'in_attesa': return '#f57f17'; default: return '#555'; }
 }
 
-const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', marginBottom: '24px' };
-const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#718096', fontWeight: 500 };
-const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '14px' };
+const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', marginBottom: '24px', border: '1px solid #e8ecf1' };
+const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#888', fontWeight: 500 };
+const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' };
 const tableStyle: React.CSSProperties = { width: '100%', borderCollapse: 'collapse', fontSize: '14px' };
-const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e2e8f0', color: '#4a5568', fontWeight: 600, fontSize: '13px' };
-const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e2e8f0' };
-const approveBtnStyle: React.CSSProperties = { padding: '4px 12px', background: '#f0fff4', color: '#276749', border: '1px solid #c6f6d5', borderRadius: '4px', cursor: 'pointer', fontSize: '13px' };
-const rejectBtnStyle: React.CSSProperties = { padding: '4px 12px', background: '#fff5f5', color: '#9b2c2c', border: '1px solid #fed7d7', borderRadius: '4px', cursor: 'pointer', fontSize: '13px' };
+const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e8ecf1', color: '#555', fontWeight: 600, fontSize: '13px' };
+const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e8ecf1' };
+const approveBtnStyle: React.CSSProperties = { padding: '4px 12px', background: '#e8f5e9', color: '#2e7d32', border: '1px solid #c8e6c9', borderRadius: '4px', cursor: 'pointer', fontSize: '13px' };
+const rejectBtnStyle: React.CSSProperties = { padding: '4px 12px', background: '#ffebee', color: '#c62828', border: '1px solid #ffcdd2', borderRadius: '4px', cursor: 'pointer', fontSize: '13px' };

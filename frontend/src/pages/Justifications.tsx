@@ -61,7 +61,7 @@ export default function Justifications() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h2 style={{ color: '#1a365d', margin: 0 }}>I Miei Giustificativi</h2>
+        <h2 style={{ color: '#333', margin: 0 }}>I Miei Giustificativi</h2>
         <button onClick={() => setShowForm(!showForm)} style={primaryBtnStyle}>
           {showForm ? 'Annulla' : 'Nuovo Giustificativo'}
         </button>
@@ -71,7 +71,7 @@ export default function Justifications() {
 
       {showForm && (
         <div style={cardStyle}>
-          <h3 style={{ margin: '0 0 16px 0' }}>Nuovo Giustificativo</h3>
+          <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Nuovo Giustificativo</h3>
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
               <div>
@@ -110,7 +110,7 @@ export default function Justifications() {
           </thead>
           <tbody>
             {justifications.length === 0 && (
-              <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#a0aec0' }}>Nessun giustificativo</td></tr>
+              <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#aaa' }}>Nessun giustificativo</td></tr>
             )}
             {justifications.map((j) => (
               <tr key={j.id}>
@@ -120,8 +120,8 @@ export default function Justifications() {
                     padding: '2px 8px',
                     borderRadius: '4px',
                     fontSize: '13px',
-                    background: j.type === 'ferie' ? '#ebf8ff' : '#faf5ff',
-                    color: j.type === 'ferie' ? '#2b6cb0' : '#6b46c1',
+                    background: j.type === 'ferie' ? '#e0f7fa' : '#fce4ec',
+                    color: j.type === 'ferie' ? '#00838f' : '#c2185b',
                   }}>
                     {j.type === 'ferie' ? 'Ferie' : 'Permesso'}
                   </span>
@@ -165,45 +165,46 @@ function statusLabel(s: string) {
 
 function statusBg(s: string) {
   switch (s) {
-    case 'approvato': return '#f0fff4';
-    case 'rifiutato': return '#fff5f5';
-    case 'in_attesa': return '#fffff0';
-    default: return '#f7fafc';
+    case 'approvato': return '#e8f5e9';
+    case 'rifiutato': return '#ffebee';
+    case 'in_attesa': return '#fff8e1';
+    default: return '#f4f6f9';
   }
 }
 
 function statusFg(s: string) {
   switch (s) {
-    case 'approvato': return '#276749';
-    case 'rifiutato': return '#9b2c2c';
-    case 'in_attesa': return '#975a16';
-    default: return '#4a5568';
+    case 'approvato': return '#2e7d32';
+    case 'rifiutato': return '#c62828';
+    case 'in_attesa': return '#f57f17';
+    default: return '#555';
   }
 }
 
 const cardStyle: React.CSSProperties = {
   background: 'white',
   padding: '24px',
-  borderRadius: '8px',
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  borderRadius: '10px',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
   marginBottom: '24px',
+  border: '1px solid #e8ecf1',
 };
 
 const primaryBtnStyle: React.CSSProperties = {
   padding: '10px 20px',
-  background: '#1a365d',
+  background: '#00BCD4',
   color: 'white',
   border: 'none',
-  borderRadius: '4px',
+  borderRadius: '6px',
   cursor: 'pointer',
-  fontWeight: 500,
+  fontWeight: 600,
 };
 
 const deleteBtnStyle: React.CSSProperties = {
   padding: '4px 12px',
-  background: '#fff5f5',
+  background: '#ffebee',
   color: '#e53e3e',
-  border: '1px solid #fed7d7',
+  border: '1px solid #ffcdd2',
   borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '13px',
@@ -213,19 +214,19 @@ const labelStyle: React.CSSProperties = {
   display: 'block',
   marginBottom: '6px',
   fontSize: '14px',
-  color: '#4a5568',
+  color: '#555',
   fontWeight: 500,
 };
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 12px',
-  border: '1px solid #e2e8f0',
-  borderRadius: '4px',
+  border: '1px solid #ddd',
+  borderRadius: '6px',
   fontSize: '14px',
   boxSizing: 'border-box',
 };
 
 const tableStyle: React.CSSProperties = { width: '100%', borderCollapse: 'collapse', fontSize: '14px' };
-const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e2e8f0', color: '#4a5568', fontWeight: 600, fontSize: '13px' };
-const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e2e8f0' };
+const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e8ecf1', color: '#555', fontWeight: 600, fontSize: '13px' };
+const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e8ecf1' };

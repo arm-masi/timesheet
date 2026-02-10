@@ -41,28 +41,31 @@ export default function Login() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f5f5f5',
+      background: 'linear-gradient(135deg, #f4f6f9 0%, #e8f4f5 100%)',
     }}>
       <div style={{
         background: 'white',
         padding: '40px',
-        borderRadius: '8px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        width: '400px',
+        borderRadius: '12px',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+        width: '420px',
+        borderTop: '4px solid #00BCD4',
       }}>
-        <h1 style={{ textAlign: 'center', color: '#1a365d', marginBottom: '8px' }}>Timesheet</h1>
-        <p style={{ textAlign: 'center', color: '#718096', marginBottom: '32px' }}>
-          Gestione Presenze Aziendali
-        </p>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <img src="/logo.png" alt="aXcent" style={{ height: '48px', marginBottom: '12px' }} />
+          <p style={{ color: '#888', fontSize: '14px' }}>
+            Gestione Presenze Aziendali
+          </p>
+        </div>
 
         <button onClick={handleAzureLogin} style={azureBtnStyle}>
           Accedi con Microsoft 365
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', margin: '24px 0', gap: '12px' }}>
-          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e2e8f0' }} />
-          <span style={{ color: '#a0aec0', fontSize: '13px' }}>oppure</span>
-          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e2e8f0' }} />
+          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e8ecf1' }} />
+          <span style={{ color: '#aaa', fontSize: '13px' }}>oppure</span>
+          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e8ecf1' }} />
         </div>
 
         <form onSubmit={handleLocalLogin}>
@@ -102,7 +105,7 @@ const azureBtnStyle: React.CSSProperties = {
   background: '#0078d4',
   color: 'white',
   border: 'none',
-  borderRadius: '4px',
+  borderRadius: '6px',
   fontSize: '15px',
   cursor: 'pointer',
   fontWeight: 500,
@@ -112,15 +115,15 @@ const labelStyle: React.CSSProperties = {
   display: 'block',
   marginBottom: '6px',
   fontSize: '14px',
-  color: '#4a5568',
+  color: '#555',
   fontWeight: 500,
 };
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '10px 12px',
-  border: '1px solid #e2e8f0',
-  borderRadius: '4px',
+  border: '1px solid #ddd',
+  borderRadius: '6px',
   fontSize: '14px',
   boxSizing: 'border-box',
 };
@@ -128,11 +131,11 @@ const inputStyle: React.CSSProperties = {
 const loginBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '12px',
-  background: '#1a365d',
+  background: '#00BCD4',
   color: 'white',
   border: 'none',
-  borderRadius: '4px',
+  borderRadius: '6px',
   fontSize: '15px',
   cursor: 'pointer',
-  fontWeight: 500,
+  fontWeight: 600,
 };

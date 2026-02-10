@@ -44,7 +44,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h2 style={{ color: '#1a365d', marginBottom: '24px' }}>Admin - Gestione Presenze</h2>
+      <h2 style={{ color: '#333', marginBottom: '24px' }}>Admin - Gestione Presenze</h2>
 
       <div style={cardStyle}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
 
       {summary && (
         <div style={cardStyle}>
-          <h3 style={{ margin: '0 0 16px 0' }}>
+          <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
             Riepilogo: {summary.user_name} - {new Date(year, month - 1).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
           </h3>
 
@@ -110,11 +110,11 @@ export default function AdminDashboard() {
                   <td style={tdStyle}>
                     {d.is_missing && <span style={{ color: '#e53e3e', fontWeight: 500 }}>Da giustificare</span>}
                     {d.has_justification && (
-                      <span style={{ color: d.justification_status === 'approvato' ? '#38a169' : '#d69e2e', fontWeight: 500 }}>
+                      <span style={{ color: d.justification_status === 'approvato' ? '#4CAF50' : '#d69e2e', fontWeight: 500 }}>
                         {d.justification_type} ({d.justification_status})
                       </span>
                     )}
-                    {!d.is_missing && !d.has_justification && d.clock_in && <span style={{ color: '#38a169' }}>OK</span>}
+                    {!d.is_missing && !d.has_justification && d.clock_in && <span style={{ color: '#4CAF50' }}>OK</span>}
                   </td>
                 </tr>
               ))}
@@ -128,16 +128,16 @@ export default function AdminDashboard() {
 
 function StatBox({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div style={{ background: '#f7fafc', padding: '12px', borderRadius: '6px', textAlign: 'center' }}>
-      <div style={{ fontSize: '20px', fontWeight: 'bold', color: color || '#2d3748' }}>{value}</div>
-      <div style={{ fontSize: '12px', color: '#718096' }}>{label}</div>
+    <div style={{ background: '#f4f6f9', padding: '12px', borderRadius: '8px', textAlign: 'center', border: '1px solid #e8ecf1' }}>
+      <div style={{ fontSize: '20px', fontWeight: 'bold', color: color || '#00BCD4' }}>{value}</div>
+      <div style={{ fontSize: '12px', color: '#888' }}>{label}</div>
     </div>
   );
 }
 
-const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', marginBottom: '24px' };
-const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#718096', fontWeight: 500 };
-const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '14px' };
+const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', marginBottom: '24px', border: '1px solid #e8ecf1' };
+const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#888', fontWeight: 500 };
+const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' };
 const tableStyle: React.CSSProperties = { width: '100%', borderCollapse: 'collapse', fontSize: '14px' };
-const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e2e8f0', color: '#4a5568', fontWeight: 600, fontSize: '13px' };
-const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e2e8f0' };
+const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e8ecf1', color: '#555', fontWeight: 600, fontSize: '13px' };
+const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e8ecf1' };

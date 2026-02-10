@@ -5,19 +5,21 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #2d3748;
+  background-color: #f4f6f9;
+  color: #333333;
 }
 
 a:hover {
-  color: white !important;
+  opacity: 0.85;
 }
 
 button:hover:not(:disabled) {
   opacity: 0.9;
+  transform: translateY(-1px);
+  transition: all 0.15s ease;
 }
 
 button:disabled {
@@ -25,10 +27,14 @@ button:disabled {
   cursor: not-allowed;
 }
 
+button {
+  transition: all 0.15s ease;
+}
+
 input:focus, select:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+  border-color: #00BCD4;
+  box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.15);
 }
 
 table {
@@ -36,5 +42,5 @@ table {
 }
 
 ::selection {
-  background: #bee3f8;
+  background: rgba(0, 188, 212, 0.2);
 }
