@@ -63,3 +63,23 @@ export interface Justification {
   created_at: string;
   user_name: string | null;
 }
+
+export type ExpenseType = 'viaggio' | 'autostrada' | 'soggiorno' | 'parcheggio' | 'pasti' | 'altro';
+
+export interface Expense {
+  id: string;
+  user_id: string;
+  date: string;
+  expense_type: ExpenseType;
+  description: string;
+  amount: number;
+  km: number | null;
+  cost_per_km: number | null;
+  km_total: number | null;
+  receipt_filename: string | null;
+  status: 'in_attesa' | 'approvato' | 'rifiutato';
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  user_name: string | null;
+}

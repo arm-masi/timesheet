@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.database import engine, async_session_factory, Base
 from app.services.auth import ensure_admin_exists
-from app.routers import auth, attendance, justification, users, export, audit
+from app.routers import auth, attendance, justification, users, export, audit, expense
 
 settings = get_settings()
 
@@ -46,6 +46,7 @@ app.include_router(justification.router)
 app.include_router(users.router)
 app.include_router(export.router)
 app.include_router(audit.router)
+app.include_router(expense.router)
 
 
 @app.get("/api/health")

@@ -28,9 +28,11 @@ export default function Layout() {
           </Link>
           <Link to="/dashboard" style={navLinkStyle}>Dashboard</Link>
           <Link to="/justifications" style={navLinkStyle}>Giustificativi</Link>
+          <Link to="/expenses" style={navLinkStyle}>Note Spese</Link>
           {isAdmin && <Link to="/admin" style={navLinkStyle}>Admin</Link>}
-          {isAdmin && <Link to="/admin/justifications" style={navLinkStyle}>Gestione Giustificativi</Link>}
-          {isAdmin && <Link to="/admin/export" style={navLinkStyle}>Export Paghe</Link>}
+          {isAdmin && <Link to="/admin/justifications" style={navLinkStyle}>Giustificativi</Link>}
+          {isAdmin && <Link to="/admin/expenses" style={navLinkStyle}>Note Spese</Link>}
+          {isAdmin && <Link to="/admin/export" style={navLinkStyle}>Export</Link>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ fontSize: '14px' }}>{user?.full_name} ({user?.role})</span>

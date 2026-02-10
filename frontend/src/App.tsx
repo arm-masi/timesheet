@@ -6,9 +6,11 @@ import Login from './pages/Login';
 import AuthCallback from './pages/AuthCallback';
 import Dashboard from './pages/Dashboard';
 import Justifications from './pages/Justifications';
+import Expenses from './pages/Expenses';
 import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminJustifications from './pages/AdminJustifications';
+import AdminExpenses from './pages/AdminExpenses';
 import AdminExport from './pages/AdminExport';
 
 export default function App() {
@@ -26,6 +28,7 @@ export default function App() {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="justifications" element={<Justifications />} />
+            <Route path="expenses" element={<Expenses />} />
             <Route path="profile" element={<Profile />} />
             <Route path="admin" element={
               <ProtectedRoute requireAdmin>
@@ -35,6 +38,11 @@ export default function App() {
             <Route path="admin/justifications" element={
               <ProtectedRoute requireAdmin>
                 <AdminJustifications />
+              </ProtectedRoute>
+            } />
+            <Route path="admin/expenses" element={
+              <ProtectedRoute requireAdmin>
+                <AdminExpenses />
               </ProtectedRoute>
             } />
             <Route path="admin/export" element={
