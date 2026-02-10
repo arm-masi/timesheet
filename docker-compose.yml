@@ -9,6 +9,9 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    security_opt:
+      - no-new-privileges:false
+    privileged: true
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U timesheet"]
       interval: 5s
@@ -31,6 +34,9 @@ services:
       ADMIN_DEFAULT_PASSWORD: ${ADMIN_DEFAULT_PASSWORD:-admin}
     ports:
       - "8000:8000"
+    security_opt:
+      - no-new-privileges:false
+    privileged: true
     depends_on:
       db:
         condition: service_healthy
@@ -42,6 +48,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    security_opt:
+      - no-new-privileges:false
+    privileged: true
     depends_on:
       - backend
     restart: unless-stopped
