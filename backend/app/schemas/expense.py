@@ -4,51 +4,55 @@ from datetime import date, datetime
 from app.models.expense import ExpenseType, ExpenseStatus
 
 
-class ExpenseCreate(BaseModel):
-    date: date
+class ExpenseItemCreate(BaseModel):
     expense_type: ExpenseType
     description: str
     amount: float
     km: float | None = None
     cost_per_km: float | None = None
 
-    @field_validator("amount")
-    @classmethod
-    def amount_positive(cls, v: float) -> float:
-        if v <= 0:
-            raise ValueError("L'importo deve essere maggiore di zero")
-        return round(v, 2)
 
-    @field_validator("km")
-    @classmethod
-    def km_positive(cls, v: float | None) -> float | None:
-        if v is not None and v <= 0:
-            raise ValueError("I km devono essere maggiori di zero")
-        return v
-
-    @field_validator("cost_per_km")
-    @classmethod
-    def cost_per_km_positive(cls, v: float | None) -> float | None:
-        if v is not None and v <= 0:
-            raise ValueError("Il costo al km deve essere maggiore di zero")
-        return v
-
-
-class ExpenseResponse(BaseModel):
+class ExpenseItemResponse(BaseModel):
     id: UUID
-    user_id: UUID
-    date: date
     expense_type: ExpenseType
     description: str
     amount: float
     km: float | None = None
     cost_per_km: float | None = None
     km_total: float | None = None
+
+    model_config = {"from_attributes": True}
+
+
+class ExpenseReportCreate(BaseModel):
+    date_from: date
+    date_to: date
+    description: str | None = None
+    items: list[ExpenseItemCreate]
+
+    @field_validator("items")
+    @classmethod
+    def at_least_one_item(cls, v: list) -> list:
+        if len(v) == 0:
+            raise ValueError("Almeno una voce di spesa e' richiesta")
+        return v
+
+
+class ExpenseReportResponse(BaseModel):
+    id: UUID
+    user_id: UUID
+    date_from: date
+    date_to: date
+    description: str | None = None
+    total_expenses: float
+    total_km_reimbursement: float
+    grand_total: float
     receipt_filename: str | None = None
     status: ExpenseStatus
     reviewed_by: UUID | None = None
     reviewed_at: datetime | None = None
     created_at: datetime
+    items: list[ExpenseItemResponse] = []
     user_name: str | None = None
 
     model_config = {"from_attributes": True}

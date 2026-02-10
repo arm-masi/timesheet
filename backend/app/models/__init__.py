@@ -2,6 +2,6 @@ from app.models.user import User
 from app.models.attendance import Attendance
 from app.models.justification import Justification
 from app.models.audit_log import AuditLog
-from app.models.expense import Expense
+from app.models.expense import ExpenseReport, ExpenseItem
 
-__all__ = ["User", "Attendance", "Justification", "AuditLog", "Expense"]
+__all__ = ["User", "Attendance", "Justification", "AuditLog", "ExpenseReport", "ExpenseItem"]
