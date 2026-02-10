@@ -106,6 +106,7 @@ async def clock_in(db: AsyncSession, user_id: uuid.UUID, notes: str | None = Non
         if notes:
             existing.notes = notes
         await db.flush()
+        await db.refresh(existing)
         return existing
 
     attendance = Attendance(
@@ -117,6 +118,7 @@ async def clock_in(db: AsyncSession, user_id: uuid.UUID, notes: str | None = Non
     )
     db.add(attendance)
     await db.flush()
+    await db.refresh(attendance)
     return attendance
 
 
@@ -133,6 +135,7 @@ async def clock_out(db: AsyncSession, user_id: uuid.UUID, notes: str | None = No
     if notes:
         existing.notes = (existing.notes or "") + " " + notes
     await db.flush()
+    await db.refresh(existing)
     return existing
 
 
