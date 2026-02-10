@@ -32,4 +32,4 @@ class User(Base):
     updated_at: Mapped[str] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     attendances = relationship("Attendance", back_populates="user", lazy="selectin")
-    justifications = relationship("Justification", back_populates="user", lazy="selectin")
+    justifications = relationship("Justification", back_populates="user", lazy="selectin", foreign_keys="[Justification.user_id]")
