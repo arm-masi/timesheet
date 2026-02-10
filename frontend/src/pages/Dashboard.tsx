@@ -8,12 +8,15 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [clockLoading, setClockLoading] = useState(false);
   const [error, setError] = useState('');
+  const [justifyLoading, setJustifyLoading] = useState<string | null>(null);
+  const [justifyError, setJustifyError] = useState('');
 
   const now = new Date();
-  const [year] = useState(now.getFullYear());
-  const [month] = useState(now.getMonth() + 1);
+  const [year, setYear] = useState(now.getFullYear());
+  const [month, setMonth] = useState(now.getMonth() + 1);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const [todayRes, summaryRes] = await Promise.all([
         api.get('/attendance/today'),
@@ -28,7 +31,7 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { fetchData(); }, [year, month]);
 
   const handleClockIn = async () => {
     setClockLoading(true);
@@ -57,6 +60,31 @@ export default function Dashboard() {
       setClockLoading(false);
     }
   };
+
+  const handleJustify = async (dateStr: string, type: 'ferie' | 'permesso') => {
+    setJustifyLoading(dateStr);
+    setJustifyError('');
+    try {
+      await api.post('/justifications/', { date: dateStr, type });
+      fetchData();
+    } catch (err: any) {
+      setJustifyError(err.response?.data?.detail || 'Errore inserimento giustificativo');
+    } finally {
+      setJustifyLoading(null);
+    }
+  };
+
+  const prevMonth = () => {
+    if (month === 1) { setYear(year - 1); setMonth(12); }
+    else { setMonth(month - 1); }
+  };
+
+  const nextMonth = () => {
+    if (month === 12) { setYear(year + 1); setMonth(1); }
+    else { setMonth(month + 1); }
+  };
+
+  const isCurrentMonth = year === now.getFullYear() && month === now.getMonth() + 1;
 
   if (loading) return <div>Caricamento...</div>;
 
@@ -106,9 +134,16 @@ export default function Dashboard() {
       {/* Monthly Summary */}
       {summary && (
         <div style={cardStyle}>
-          <h3 style={{ margin: '0 0 16px 0', color: '#2d3748' }}>
-            Riepilogo {new Date(year, month - 1).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
-          </h3>
+          {/* Month navigation */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <button onClick={prevMonth} style={navBtnStyle}>&larr; Mese precedente</button>
+            <h3 style={{ margin: 0, color: '#2d3748' }}>
+              Riepilogo {new Date(year, month - 1).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
+            </h3>
+            <button onClick={nextMonth} disabled={isCurrentMonth} style={{ ...navBtnStyle, opacity: isCurrentMonth ? 0.4 : 1 }}>
+              Mese successivo &rarr;
+            </button>
+          </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px', marginBottom: '24px' }}>
             <StatCard label="Giorni lavorati" value={summary.total_worked_days} />
@@ -117,6 +152,8 @@ export default function Dashboard() {
             <StatCard label="Non giustificati" value={summary.total_missing_days} color={summary.total_missing_days > 0 ? '#e53e3e' : undefined} />
             <StatCard label="Ore totali" value={summary.total_hours} />
           </div>
+
+          {justifyError && <p style={{ color: '#e53e3e', marginBottom: '12px', fontSize: '14px' }}>{justifyError}</p>}
 
           {/* Daily Details Table */}
           <div style={{ overflowX: 'auto' }}>
@@ -129,6 +166,7 @@ export default function Dashboard() {
                   <th style={thStyle}>Ore</th>
                   <th style={thStyle}>Deficit</th>
                   <th style={thStyle}>Stato</th>
+                  <th style={thStyle}>Azioni</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,11 +181,34 @@ export default function Dashboard() {
                       {d.is_missing && <span style={{ color: '#e53e3e', fontWeight: 500 }}>Da giustificare</span>}
                       {d.has_justification && (
                         <span style={{ color: statusColor(d.justification_status), fontWeight: 500 }}>
-                          {d.justification_type} ({d.justification_status})
+                          {d.justification_type === 'ferie' ? 'Ferie' : 'Permesso'} ({statusLabel(d.justification_status)})
                         </span>
                       )}
                       {!d.is_missing && !d.has_justification && d.clock_in && d.clock_out && (
                         <span style={{ color: '#38a169' }}>OK</span>
+                      )}
+                    </td>
+                    <td style={tdStyle}>
+                      {d.is_missing && (
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <button
+                            onClick={() => handleJustify(d.date, 'ferie')}
+                            disabled={justifyLoading === d.date}
+                            style={ferieBtnStyle}
+                          >
+                            {justifyLoading === d.date ? '...' : 'Ferie'}
+                          </button>
+                          <button
+                            onClick={() => handleJustify(d.date, 'permesso')}
+                            disabled={justifyLoading === d.date}
+                            style={permessoBtnStyle}
+                          >
+                            {justifyLoading === d.date ? '...' : 'Permesso'}
+                          </button>
+                        </div>
+                      )}
+                      {d.has_justification && d.deficit_hours > 0 && !d.is_missing && (
+                        <span style={{ fontSize: '12px', color: '#718096' }}>Coperto</span>
                       )}
                     </td>
                   </tr>
@@ -179,6 +240,15 @@ function statusColor(status: string | null): string {
   }
 }
 
+function statusLabel(status: string | null): string {
+  switch (status) {
+    case 'approvato': return 'Approvato';
+    case 'rifiutato': return 'Rifiutato';
+    case 'in_attesa': return 'In attesa';
+    default: return status || '';
+  }
+}
+
 const cardStyle: React.CSSProperties = {
   background: 'white',
   padding: '24px',
@@ -207,6 +277,39 @@ const clockOutBtnStyle: React.CSSProperties = {
   fontSize: '15px',
   cursor: 'pointer',
   fontWeight: 600,
+};
+
+const navBtnStyle: React.CSSProperties = {
+  padding: '8px 16px',
+  background: '#edf2f7',
+  color: '#4a5568',
+  border: '1px solid #e2e8f0',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontSize: '13px',
+  fontWeight: 500,
+};
+
+const ferieBtnStyle: React.CSSProperties = {
+  padding: '3px 10px',
+  background: '#ebf8ff',
+  color: '#2b6cb0',
+  border: '1px solid #bee3f8',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontSize: '12px',
+  fontWeight: 500,
+};
+
+const permessoBtnStyle: React.CSSProperties = {
+  padding: '3px 10px',
+  background: '#faf5ff',
+  color: '#6b46c1',
+  border: '1px solid #e9d8fd',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontSize: '12px',
+  fontWeight: 500,
 };
 
 const badgeGreen: React.CSSProperties = {
