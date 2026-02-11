@@ -16,6 +16,12 @@ class AuthProvider(str, enum.Enum):
     AZURE_AD = "azure_ad"
 
 
+class OfficeLocation(str, enum.Enum):
+    MILANO_FARA = "milano_fara"
+    NAPOLI_IMMACOLATA = "napoli_immacolata"
+    NAPOLI_MASCAGNI = "napoli_mascagni"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -27,6 +33,7 @@ class User(Base):
     role: Mapped[UserRole] = mapped_column(SAEnum(UserRole), default=UserRole.EMPLOYEE, nullable=False)
     auth_provider: Mapped[AuthProvider] = mapped_column(SAEnum(AuthProvider), default=AuthProvider.AZURE_AD, nullable=False)
     azure_oid: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True)
+    office_location: Mapped[OfficeLocation | None] = mapped_column(SAEnum(OfficeLocation), nullable=True, default=None)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[str] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[str] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

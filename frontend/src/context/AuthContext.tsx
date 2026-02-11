@@ -8,6 +8,7 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<void>;
   loginWithAzure: (code: string) => Promise<void>;
   logout: () => void;
+  refreshUser: () => Promise<void>;
   isAdmin: boolean;
   isLoading: boolean;
 }
@@ -68,10 +69,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    try {
+      const res = await api.get('/auth/me');
+      setUser(res.data);
+      localStorage.setItem('user', JSON.stringify(res.data));
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const isAdmin = user?.role === 'admin';
 
   return (
-    <AuthContext.Provider value={{ user, token, login, loginWithAzure, logout, isAdmin, isLoading }}>
+    <AuthContext.Provider value={{ user, token, login, loginWithAzure, logout, refreshUser, isAdmin, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

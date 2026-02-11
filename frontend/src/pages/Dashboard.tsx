@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { Attendance, MonthlySummary } from '../types';
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [todayAttendance, setTodayAttendance] = useState<Attendance | null>(null);
   const [summary, setSummary] = useState<MonthlySummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -94,6 +98,16 @@ export default function Dashboard() {
   return (
     <div>
       <h2 style={{ marginBottom: '24px', color: 'var(--text-primary)' }}>Dashboard</h2>
+
+      {!user?.office_location && (
+        <div style={alertStyle}>
+          <span style={{ fontWeight: 600 }}>Sede non impostata.</span>{' '}
+          Per un corretto calcolo delle festività (incluso il santo patrono), imposta la tua sede di lavoro.
+          <button onClick={() => navigate('/profile')} style={alertBtnStyle}>
+            Vai al Profilo
+          </button>
+        </div>
+      )}
 
       {/* Clock In/Out Card */}
       <div style={cardStyle}>
@@ -311,6 +325,32 @@ const permessoBtnStyle: React.CSSProperties = {
   cursor: 'pointer',
   fontSize: '12px',
   fontWeight: 500,
+};
+
+const alertStyle: React.CSSProperties = {
+  background: 'var(--badge-warning-bg, #fff3cd)',
+  color: 'var(--badge-warning-text, #856404)',
+  padding: '16px 20px',
+  borderRadius: '10px',
+  marginBottom: '24px',
+  border: '1px solid var(--badge-warning-border, #ffc107)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  flexWrap: 'wrap' as const,
+  fontSize: '14px',
+};
+
+const alertBtnStyle: React.CSSProperties = {
+  padding: '6px 16px',
+  background: 'var(--brand-cyan)',
+  color: 'white',
+  border: 'none',
+  borderRadius: '6px',
+  cursor: 'pointer',
+  fontWeight: 600,
+  fontSize: '13px',
+  marginLeft: 'auto',
 };
 
 const badgeGreen: React.CSSProperties = {

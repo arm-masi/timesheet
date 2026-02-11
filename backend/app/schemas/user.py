@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from uuid import UUID
 from datetime import datetime
-from app.models.user import UserRole, AuthProvider
+from app.models.user import UserRole, AuthProvider, OfficeLocation
 
 
 class UserBase(BaseModel):
@@ -17,6 +17,7 @@ class UserResponse(UserBase):
     id: UUID
     role: UserRole
     auth_provider: AuthProvider
+    office_location: OfficeLocation | None = None
     is_active: bool
     created_at: datetime
 
@@ -27,6 +28,11 @@ class UserUpdate(BaseModel):
     full_name: str | None = None
     role: UserRole | None = None
     is_active: bool | None = None
+    office_location: OfficeLocation | None = None
+
+
+class UpdateOfficeLocation(BaseModel):
+    office_location: OfficeLocation
 
 
 class ChangePasswordRequest(BaseModel):

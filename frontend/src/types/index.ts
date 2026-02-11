@@ -1,9 +1,20 @@
+export type OfficeLocationKey = 'milano_fara' | 'napoli_immacolata' | 'napoli_mascagni';
+
+export interface OfficeLocationInfo {
+  key: OfficeLocationKey;
+  label: string;
+  address: string;
+  patron_saint: string;
+  patron_saint_date: string;
+}
+
 export interface User {
   id: string;
   email: string;
   full_name: string;
   role: 'employee' | 'admin';
   auth_provider: 'local' | 'azure_ad';
+  office_location: OfficeLocationKey | null;
   is_active: boolean;
   created_at: string;
 }

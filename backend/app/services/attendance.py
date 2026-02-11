@@ -5,7 +5,7 @@ from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.attendance import Attendance
 from app.models.justification import Justification, JustificationStatus, JustificationType
-from app.models.user import User
+from app.models.user import User, OfficeLocation
 from app.schemas.attendance import DailySummary, MonthlySummary
 from app.config import get_settings
 
@@ -53,9 +53,75 @@ def calculate_worked_hours(clock_in: time | None, clock_out: time | None) -> flo
     return min(hours, DAILY_HOURS)
 
 
-def is_working_day(d: date) -> bool:
-    """Monday=0 through Friday=4 are working days."""
-    return d.weekday() < 5
+# Italian national holidays (month, day)
+NATIONAL_HOLIDAYS = [
+    (1, 1),    # Capodanno
+    (1, 6),    # Epifania
+    (4, 25),   # Liberazione
+    (5, 1),    # Festa del lavoro
+    (6, 2),    # Festa della Repubblica
+    (8, 15),   # Ferragosto
+    (11, 1),   # Ognissanti
+    (12, 8),   # Immacolata
+    (12, 25),  # Natale
+    (12, 26),  # Santo Stefano
+]
+
+# Patron saint holidays by office location (month, day)
+PATRON_SAINT_HOLIDAYS: dict[OfficeLocation, tuple[int, int, str]] = {
+    OfficeLocation.MILANO_FARA: (12, 7, "Sant'Ambrogio"),
+    OfficeLocation.NAPOLI_IMMACOLATA: (9, 19, "San Gennaro"),
+    OfficeLocation.NAPOLI_MASCAGNI: (9, 19, "San Gennaro"),
+}
+
+
+def _get_easter(year: int) -> date:
+    """Compute Easter Sunday for a given year (Anonymous Gregorian algorithm)."""
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    month = (h + l - 7 * m + 114) // 31
+    day = ((h + l - 7 * m + 114) % 31) + 1
+    return date(year, month, day)
+
+
+def is_national_holiday(d: date) -> bool:
+    """Check if a date is an Italian national holiday (including Easter Monday)."""
+    if (d.month, d.day) in NATIONAL_HOLIDAYS:
+        return True
+    # Pasquetta (Easter Monday)
+    easter = _get_easter(d.year)
+    easter_monday = easter + timedelta(days=1)
+    if d == easter_monday:
+        return True
+    return False
+
+
+def is_patron_saint_holiday(d: date, office_location: OfficeLocation | None) -> bool:
+    """Check if a date is the patron saint holiday for the given office location."""
+    if office_location is None:
+        return False
+    saint = PATRON_SAINT_HOLIDAYS.get(office_location)
+    if saint is None:
+        return False
+    return d.month == saint[0] and d.day == saint[1]
+
+
+def is_working_day(d: date, office_location: OfficeLocation | None = None) -> bool:
+    """Monday=0 through Friday=4 are working days, excluding holidays."""
+    if d.weekday() >= 5:
+        return False
+    if is_national_holiday(d):
+        return False
+    if is_patron_saint_holiday(d, office_location):
+        return False
+    return True
 
 
 def validate_flex_time(clock_in: time) -> time:
@@ -174,7 +240,7 @@ async def get_monthly_summary(db: AsyncSession, user_id: uuid.UUID, year: int, m
 
     for day_num in range(1, num_days + 1):
         d = date(year, month, day_num)
-        if not is_working_day(d):
+        if not is_working_day(d, user.office_location):
             continue
         if d > date.today():
             continue
