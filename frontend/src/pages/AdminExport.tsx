@@ -34,10 +34,10 @@ export default function AdminExport() {
 
   return (
     <div>
-      <h2 style={{ color: '#333', marginBottom: '24px' }}>Export Paghe</h2>
+      <h2 style={{ color: 'var(--text-primary)', marginBottom: '24px' }}>Export Paghe</h2>
 
       <div style={cardStyle}>
-        <p style={{ color: '#555', marginBottom: '24px' }}>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
           Genera il report mensile delle paghe per tutti i dipendenti attivi.
           Il report include: giorni lavorati, ferie, permessi e ore totali.
         </p>
@@ -59,13 +59,13 @@ export default function AdminExport() {
           </div>
         </div>
 
-        {error && <p style={{ color: '#e53e3e', marginBottom: '16px' }}>{error}</p>}
+        {error && <p style={{ color: 'var(--badge-error-text)', marginBottom: '16px' }}>{error}</p>}
 
         <div style={{ display: 'flex', gap: '12px' }}>
           <button onClick={() => handleExport('csv')} disabled={loading} style={exportBtnStyle}>
             {loading ? 'Export...' : 'Scarica CSV'}
           </button>
-          <button onClick={() => handleExport('excel')} disabled={loading} style={{ ...exportBtnStyle, background: '#4CAF50' }}>
+          <button onClick={() => handleExport('excel')} disabled={loading} style={{ ...exportBtnStyle, background: 'var(--green)' }}>
             {loading ? 'Export...' : 'Scarica Excel'}
           </button>
         </div>
@@ -74,10 +74,10 @@ export default function AdminExport() {
   );
 }
 
-const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: '1px solid #e8ecf1' };
-const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#888', fontWeight: 500 };
-const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' };
+const cardStyle: React.CSSProperties = { background: 'var(--bg-card)', padding: '24px', borderRadius: '10px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)' };
+const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: 'var(--text-muted)', fontWeight: 500 };
+const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid var(--input-border)', borderRadius: '6px', fontSize: '14px' };
 const exportBtnStyle: React.CSSProperties = {
-  padding: '12px 24px', background: '#00BCD4', color: 'white',
+  padding: '12px 24px', background: 'var(--brand-cyan)', color: 'var(--bg-card)',
   border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '14px',
 };

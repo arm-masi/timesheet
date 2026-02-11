@@ -44,7 +44,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h2 style={{ color: '#333', marginBottom: '24px' }}>Admin - Gestione Presenze</h2>
+      <h2 style={{ color: 'var(--text-primary)', marginBottom: '24px' }}>Admin - Gestione Presenze</h2>
 
       <div style={cardStyle}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
@@ -72,11 +72,11 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {error && <p style={{ color: '#e53e3e', marginBottom: '16px' }}>{error}</p>}
+      {error && <p style={{ color: 'var(--badge-error-text)', marginBottom: '16px' }}>{error}</p>}
 
       {summary && (
         <div style={cardStyle}>
-          <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
+          <h3 style={{ margin: '0 0 16px 0', color: 'var(--text-primary)' }}>
             Riepilogo: {summary.user_name} - {new Date(year, month - 1).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
           </h3>
 
@@ -84,7 +84,7 @@ export default function AdminDashboard() {
             <StatBox label="Giorni lavorati" value={summary.total_worked_days} />
             <StatBox label="Ferie" value={summary.total_ferie_days} />
             <StatBox label="Permessi" value={summary.total_permesso_days} />
-            <StatBox label="Non giustificati" value={summary.total_missing_days} color={summary.total_missing_days > 0 ? '#e53e3e' : undefined} />
+            <StatBox label="Non giustificati" value={summary.total_missing_days} color={summary.total_missing_days > 0 ? 'var(--badge-error-text)' : undefined} />
             <StatBox label="Ore totali" value={summary.total_hours} />
           </div>
 
@@ -101,20 +101,20 @@ export default function AdminDashboard() {
             </thead>
             <tbody>
               {summary.daily_details.map((d) => (
-                <tr key={d.date} style={{ background: d.is_missing ? '#fff5f5' : 'white' }}>
+                <tr key={d.date} style={{ background: d.is_missing ? 'var(--row-missing)' : 'var(--bg-card)' }}>
                   <td style={tdStyle}>{new Date(d.date + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit', month: '2-digit' })}</td>
                   <td style={tdStyle}>{d.clock_in || '-'}</td>
                   <td style={tdStyle}>{d.clock_out || '-'}</td>
                   <td style={tdStyle}>{d.worked_hours}</td>
-                  <td style={tdStyle}>{d.deficit_hours > 0 ? <span style={{ color: '#e53e3e' }}>{d.deficit_hours}h</span> : '-'}</td>
+                  <td style={tdStyle}>{d.deficit_hours > 0 ? <span style={{ color: 'var(--badge-error-text)' }}>{d.deficit_hours}h</span> : '-'}</td>
                   <td style={tdStyle}>
-                    {d.is_missing && <span style={{ color: '#e53e3e', fontWeight: 500 }}>Da giustificare</span>}
+                    {d.is_missing && <span style={{ color: 'var(--badge-error-text)', fontWeight: 500 }}>Da giustificare</span>}
                     {d.has_justification && (
-                      <span style={{ color: d.justification_status === 'approvato' ? '#4CAF50' : '#d69e2e', fontWeight: 500 }}>
+                      <span style={{ color: d.justification_status === 'approvato' ? 'var(--green)' : 'var(--badge-warning-text)', fontWeight: 500 }}>
                         {d.justification_type} ({d.justification_status})
                       </span>
                     )}
-                    {!d.is_missing && !d.has_justification && d.clock_in && <span style={{ color: '#4CAF50' }}>OK</span>}
+                    {!d.is_missing && !d.has_justification && d.clock_in && <span style={{ color: 'var(--green)' }}>OK</span>}
                   </td>
                 </tr>
               ))}
@@ -128,16 +128,16 @@ export default function AdminDashboard() {
 
 function StatBox({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div style={{ background: '#f4f6f9', padding: '12px', borderRadius: '8px', textAlign: 'center', border: '1px solid #e8ecf1' }}>
-      <div style={{ fontSize: '20px', fontWeight: 'bold', color: color || '#00BCD4' }}>{value}</div>
-      <div style={{ fontSize: '12px', color: '#888' }}>{label}</div>
+    <div style={{ background: 'var(--bg-section)', padding: '12px', borderRadius: '8px', textAlign: 'center', border: '1px solid var(--border)' }}>
+      <div style={{ fontSize: '20px', fontWeight: 'bold', color: color || 'var(--brand-cyan)' }}>{value}</div>
+      <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{label}</div>
     </div>
   );
 }
 
-const cardStyle: React.CSSProperties = { background: 'white', padding: '24px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', marginBottom: '24px', border: '1px solid #e8ecf1' };
-const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: '#888', fontWeight: 500 };
-const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' };
+const cardStyle: React.CSSProperties = { background: 'var(--bg-card)', padding: '24px', borderRadius: '10px', boxShadow: 'var(--shadow)', marginBottom: '24px', border: '1px solid var(--border)' };
+const labelStyle: React.CSSProperties = { display: 'block', marginBottom: '6px', fontSize: '13px', color: 'var(--text-muted)', fontWeight: 500 };
+const inputStyle: React.CSSProperties = { padding: '8px 12px', border: '1px solid var(--input-border)', borderRadius: '6px', fontSize: '14px' };
 const tableStyle: React.CSSProperties = { width: '100%', borderCollapse: 'collapse', fontSize: '14px' };
-const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e8ecf1', color: '#555', fontWeight: 600, fontSize: '13px' };
-const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e8ecf1' };
+const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid var(--border)', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '13px' };
+const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid var(--border)' };

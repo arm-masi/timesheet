@@ -93,11 +93,11 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: '24px', color: '#333' }}>Dashboard</h2>
+      <h2 style={{ marginBottom: '24px', color: 'var(--text-primary)' }}>Dashboard</h2>
 
       {/* Clock In/Out Card */}
       <div style={cardStyle}>
-        <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>
+        <h3 style={{ margin: '0 0 16px 0', color: 'var(--text-primary)' }}>
           Timbratura - {new Date().toLocaleDateString('it-IT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </h3>
 
@@ -124,11 +124,11 @@ export default function Dashboard() {
             </button>
           )}
           {todayAttendance?.clock_in && todayAttendance?.clock_out && (
-            <span style={{ color: '#4CAF50', fontWeight: 500 }}>Giornata completata</span>
+            <span style={{ color: 'var(--green)', fontWeight: 500 }}>Giornata completata</span>
           )}
         </div>
 
-        {error && <p style={{ color: '#e53e3e', marginTop: '12px', fontSize: '14px' }}>{error}</p>}
+        {error && <p style={{ color: 'var(--badge-error-text)', marginTop: '12px', fontSize: '14px' }}>{error}</p>}
       </div>
 
       {/* Monthly Summary */}
@@ -137,7 +137,7 @@ export default function Dashboard() {
           {/* Month navigation */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <button onClick={prevMonth} style={navBtnStyle}>&larr; Mese precedente</button>
-            <h3 style={{ margin: 0, color: '#333' }}>
+            <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>
               Riepilogo {new Date(year, month - 1).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
             </h3>
             <button onClick={nextMonth} disabled={isCurrentMonth} style={{ ...navBtnStyle, opacity: isCurrentMonth ? 0.4 : 1 }}>
@@ -149,11 +149,11 @@ export default function Dashboard() {
             <StatCard label="Giorni lavorati" value={summary.total_worked_days} />
             <StatCard label="Ferie" value={summary.total_ferie_days} />
             <StatCard label="Permessi" value={summary.total_permesso_days} />
-            <StatCard label="Non giustificati" value={summary.total_missing_days} color={summary.total_missing_days > 0 ? '#e53e3e' : undefined} />
+            <StatCard label="Non giustificati" value={summary.total_missing_days} color={summary.total_missing_days > 0 ? 'var(--badge-error-text)' : undefined} />
             <StatCard label="Ore totali" value={summary.total_hours} />
           </div>
 
-          {justifyError && <p style={{ color: '#e53e3e', marginBottom: '12px', fontSize: '14px' }}>{justifyError}</p>}
+          {justifyError && <p style={{ color: 'var(--badge-error-text)', marginBottom: '12px', fontSize: '14px' }}>{justifyError}</p>}
 
           {/* Daily Details Table */}
           <div style={{ overflowX: 'auto' }}>
@@ -171,21 +171,21 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {summary.daily_details.map((d) => (
-                  <tr key={d.date} style={{ background: d.is_missing ? '#fff5f5' : d.has_justification ? '#fffff0' : 'white' }}>
+                  <tr key={d.date} style={{ background: d.is_missing ? 'var(--row-missing)' : d.has_justification ? 'var(--row-justified)' : 'var(--bg-card)' }}>
                     <td style={tdStyle}>{new Date(d.date + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit', month: '2-digit' })}</td>
                     <td style={tdStyle}>{d.clock_in || '-'}</td>
                     <td style={tdStyle}>{d.clock_out || '-'}</td>
                     <td style={tdStyle}>{d.worked_hours}</td>
-                    <td style={tdStyle}>{d.deficit_hours > 0 ? <span style={{ color: '#e53e3e' }}>{d.deficit_hours}h</span> : '-'}</td>
+                    <td style={tdStyle}>{d.deficit_hours > 0 ? <span style={{ color: 'var(--badge-error-text)' }}>{d.deficit_hours}h</span> : '-'}</td>
                     <td style={tdStyle}>
-                      {d.is_missing && <span style={{ color: '#e53e3e', fontWeight: 500 }}>Da giustificare</span>}
+                      {d.is_missing && <span style={{ color: 'var(--badge-error-text)', fontWeight: 500 }}>Da giustificare</span>}
                       {d.has_justification && (
                         <span style={{ color: statusColor(d.justification_status), fontWeight: 500 }}>
                           {d.justification_type === 'ferie' ? 'Ferie' : 'Permesso'} ({statusLabel(d.justification_status)})
                         </span>
                       )}
                       {!d.is_missing && !d.has_justification && d.clock_in && d.clock_out && (
-                        <span style={{ color: '#4CAF50' }}>OK</span>
+                        <span style={{ color: 'var(--green)' }}>OK</span>
                       )}
                     </td>
                     <td style={tdStyle}>
@@ -208,7 +208,7 @@ export default function Dashboard() {
                         </div>
                       )}
                       {d.has_justification && d.deficit_hours > 0 && !d.is_missing && (
-                        <span style={{ fontSize: '12px', color: '#888' }}>Coperto</span>
+                        <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Coperto</span>
                       )}
                     </td>
                   </tr>
@@ -224,19 +224,19 @@ export default function Dashboard() {
 
 function StatCard({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div style={{ background: '#f4f6f9', padding: '16px', borderRadius: '8px', textAlign: 'center', border: '1px solid #e8ecf1' }}>
-      <div style={{ fontSize: '24px', fontWeight: 'bold', color: color || '#00BCD4' }}>{value}</div>
-      <div style={{ fontSize: '13px', color: '#888', marginTop: '4px' }}>{label}</div>
+    <div style={{ background: 'var(--bg-section)', padding: '16px', borderRadius: '8px', textAlign: 'center', border: '1px solid var(--border)' }}>
+      <div style={{ fontSize: '24px', fontWeight: 'bold', color: color || 'var(--brand-cyan)' }}>{value}</div>
+      <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>{label}</div>
     </div>
   );
 }
 
 function statusColor(status: string | null): string {
   switch (status) {
-    case 'approvato': return '#4CAF50';
-    case 'rifiutato': return '#e53e3e';
-    case 'in_attesa': return '#d69e2e';
-    default: return '#888';
+    case 'approvato': return 'var(--green)';
+    case 'rifiutato': return 'var(--badge-error-text)';
+    case 'in_attesa': return 'var(--badge-warning-text)';
+    default: return 'var(--text-muted)';
   }
 }
 
@@ -250,17 +250,17 @@ function statusLabel(status: string | null): string {
 }
 
 const cardStyle: React.CSSProperties = {
-  background: 'white',
+  background: 'var(--bg-card)',
   padding: '24px',
   borderRadius: '10px',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+  boxShadow: 'var(--shadow)',
   marginBottom: '24px',
-  border: '1px solid #e8ecf1',
+  border: '1px solid var(--border)',
 };
 
 const clockInBtnStyle: React.CSSProperties = {
   padding: '12px 32px',
-  background: '#00BCD4',
+  background: 'var(--brand-cyan)',
   color: 'white',
   border: 'none',
   borderRadius: '8px',
@@ -271,7 +271,7 @@ const clockInBtnStyle: React.CSSProperties = {
 
 const clockOutBtnStyle: React.CSSProperties = {
   padding: '12px 32px',
-  background: '#E6007E',
+  background: 'var(--brand-magenta)',
   color: 'white',
   border: 'none',
   borderRadius: '8px',
@@ -282,9 +282,9 @@ const clockOutBtnStyle: React.CSSProperties = {
 
 const navBtnStyle: React.CSSProperties = {
   padding: '8px 16px',
-  background: '#f4f6f9',
-  color: '#555',
-  border: '1px solid #ddd',
+  background: 'var(--bg-section)',
+  color: 'var(--text-secondary)',
+  border: '1px solid var(--input-border)',
   borderRadius: '6px',
   cursor: 'pointer',
   fontSize: '13px',
@@ -293,9 +293,9 @@ const navBtnStyle: React.CSSProperties = {
 
 const ferieBtnStyle: React.CSSProperties = {
   padding: '3px 10px',
-  background: '#e0f7fa',
-  color: '#00838f',
-  border: '1px solid #b2ebf2',
+  background: 'var(--badge-info-bg)',
+  color: 'var(--badge-info-text)',
+  border: '1px solid var(--badge-info-border)',
   borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '12px',
@@ -304,9 +304,9 @@ const ferieBtnStyle: React.CSSProperties = {
 
 const permessoBtnStyle: React.CSSProperties = {
   padding: '3px 10px',
-  background: '#fce4ec',
-  color: '#c2185b',
-  border: '1px solid #f8bbd0',
+  background: 'var(--badge-accent-bg)',
+  color: 'var(--badge-accent-text)',
+  border: '1px solid var(--badge-accent-border)',
   borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '12px',
@@ -314,8 +314,8 @@ const permessoBtnStyle: React.CSSProperties = {
 };
 
 const badgeGreen: React.CSSProperties = {
-  background: '#e8f5e9',
-  color: '#2e7d32',
+  background: 'var(--badge-success-bg)',
+  color: 'var(--badge-success-text)',
   padding: '6px 12px',
   borderRadius: '6px',
   fontSize: '14px',
@@ -323,8 +323,8 @@ const badgeGreen: React.CSSProperties = {
 };
 
 const badgeCyan: React.CSSProperties = {
-  background: '#e0f7fa',
-  color: '#00838f',
+  background: 'var(--badge-info-bg)',
+  color: 'var(--badge-info-text)',
   padding: '6px 12px',
   borderRadius: '6px',
   fontSize: '14px',
@@ -340,13 +340,13 @@ const tableStyle: React.CSSProperties = {
 const thStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '10px 12px',
-  borderBottom: '2px solid #e8ecf1',
-  color: '#555',
+  borderBottom: '2px solid var(--border)',
+  color: 'var(--text-secondary)',
   fontSize: '13px',
   fontWeight: 600,
 };
 
 const tdStyle: React.CSSProperties = {
   padding: '10px 12px',
-  borderBottom: '1px solid #e8ecf1',
+  borderBottom: '1px solid var(--border)',
 };

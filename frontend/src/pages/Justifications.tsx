@@ -61,17 +61,17 @@ export default function Justifications() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h2 style={{ color: '#333', margin: 0 }}>I Miei Giustificativi</h2>
+        <h2 style={{ color: 'var(--text-primary)', margin: 0 }}>I Miei Giustificativi</h2>
         <button onClick={() => setShowForm(!showForm)} style={primaryBtnStyle}>
           {showForm ? 'Annulla' : 'Nuovo Giustificativo'}
         </button>
       </div>
 
-      {error && <p style={{ color: '#e53e3e', marginBottom: '16px' }}>{error}</p>}
+      {error && <p style={{ color: 'var(--badge-error-text)', marginBottom: '16px' }}>{error}</p>}
 
       {showForm && (
         <div style={cardStyle}>
-          <h3 style={{ margin: '0 0 16px 0', color: '#333' }}>Nuovo Giustificativo</h3>
+          <h3 style={{ margin: '0 0 16px 0', color: 'var(--text-primary)' }}>Nuovo Giustificativo</h3>
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
               <div>
@@ -110,7 +110,7 @@ export default function Justifications() {
           </thead>
           <tbody>
             {justifications.length === 0 && (
-              <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#aaa' }}>Nessun giustificativo</td></tr>
+              <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: 'var(--text-placeholder)' }}>Nessun giustificativo</td></tr>
             )}
             {justifications.map((j) => (
               <tr key={j.id}>
@@ -120,8 +120,8 @@ export default function Justifications() {
                     padding: '2px 8px',
                     borderRadius: '4px',
                     fontSize: '13px',
-                    background: j.type === 'ferie' ? '#e0f7fa' : '#fce4ec',
-                    color: j.type === 'ferie' ? '#00838f' : '#c2185b',
+                    background: j.type === 'ferie' ? 'var(--badge-info-bg)' : 'var(--badge-accent-bg)',
+                    color: j.type === 'ferie' ? 'var(--badge-info-text)' : 'var(--badge-accent-text)',
                   }}>
                     {j.type === 'ferie' ? 'Ferie' : 'Permesso'}
                   </span>
@@ -165,35 +165,35 @@ function statusLabel(s: string) {
 
 function statusBg(s: string) {
   switch (s) {
-    case 'approvato': return '#e8f5e9';
-    case 'rifiutato': return '#ffebee';
-    case 'in_attesa': return '#fff8e1';
-    default: return '#f4f6f9';
+    case 'approvato': return 'var(--badge-success-bg)';
+    case 'rifiutato': return 'var(--badge-error-bg)';
+    case 'in_attesa': return 'var(--badge-warning-bg)';
+    default: return 'var(--bg-section)';
   }
 }
 
 function statusFg(s: string) {
   switch (s) {
-    case 'approvato': return '#2e7d32';
-    case 'rifiutato': return '#c62828';
-    case 'in_attesa': return '#f57f17';
-    default: return '#555';
+    case 'approvato': return 'var(--badge-success-text)';
+    case 'rifiutato': return 'var(--badge-error-text)';
+    case 'in_attesa': return 'var(--badge-warning-text)';
+    default: return 'var(--text-secondary)';
   }
 }
 
 const cardStyle: React.CSSProperties = {
-  background: 'white',
+  background: 'var(--bg-card)',
   padding: '24px',
   borderRadius: '10px',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+  boxShadow: 'var(--shadow)',
   marginBottom: '24px',
-  border: '1px solid #e8ecf1',
+  border: '1px solid var(--border)',
 };
 
 const primaryBtnStyle: React.CSSProperties = {
   padding: '10px 20px',
-  background: '#00BCD4',
-  color: 'white',
+  background: 'var(--brand-cyan)',
+  color: 'var(--bg-card)',
   border: 'none',
   borderRadius: '6px',
   cursor: 'pointer',
@@ -202,9 +202,9 @@ const primaryBtnStyle: React.CSSProperties = {
 
 const deleteBtnStyle: React.CSSProperties = {
   padding: '4px 12px',
-  background: '#ffebee',
-  color: '#e53e3e',
-  border: '1px solid #ffcdd2',
+  background: 'var(--badge-error-bg)',
+  color: 'var(--badge-error-text)',
+  border: '1px solid var(--badge-error-border)',
   borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '13px',
@@ -214,19 +214,19 @@ const labelStyle: React.CSSProperties = {
   display: 'block',
   marginBottom: '6px',
   fontSize: '14px',
-  color: '#555',
+  color: 'var(--text-secondary)',
   fontWeight: 500,
 };
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 12px',
-  border: '1px solid #ddd',
+  border: '1px solid var(--input-border)',
   borderRadius: '6px',
   fontSize: '14px',
   boxSizing: 'border-box',
 };
 
 const tableStyle: React.CSSProperties = { width: '100%', borderCollapse: 'collapse', fontSize: '14px' };
-const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid #e8ecf1', color: '#555', fontWeight: 600, fontSize: '13px' };
-const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid #e8ecf1' };
+const thStyle: React.CSSProperties = { textAlign: 'left', padding: '10px 12px', borderBottom: '2px solid var(--border)', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '13px' };
+const tdStyle: React.CSSProperties = { padding: '10px 12px', borderBottom: '1px solid var(--border)' };

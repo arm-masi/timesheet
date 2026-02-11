@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import api from '../services/api';
 
 export default function Login() {
@@ -10,6 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { isDark, toggleTheme } = useTheme();
 
   const handleLocalLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,19 +43,38 @@ export default function Login() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #f4f6f9 0%, #e8f4f5 100%)',
+      background: 'var(--login-gradient)',
     }}>
       <div style={{
-        background: 'white',
+        background: 'var(--bg-card)',
         padding: '40px',
         borderRadius: '12px',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+        boxShadow: 'var(--shadow-strong)',
         width: '420px',
-        borderTop: '4px solid #00BCD4',
+        borderTop: '4px solid var(--brand-cyan)',
+        position: 'relative',
       }}>
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            background: 'none',
+            border: 'none',
+            fontSize: '20px',
+            cursor: 'pointer',
+            padding: '4px',
+            lineHeight: 1,
+          }}
+        >
+          {isDark ? '\u2600\uFE0F' : '\uD83C\uDF19'}
+        </button>
+
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <img src="/logo.png" alt="aXcent" style={{ height: '48px', marginBottom: '12px' }} />
-          <p style={{ color: '#888', fontSize: '14px' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
             Gestione Presenze Aziendali
           </p>
         </div>
@@ -63,9 +84,9 @@ export default function Login() {
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', margin: '24px 0', gap: '12px' }}>
-          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e8ecf1' }} />
-          <span style={{ color: '#aaa', fontSize: '13px' }}>oppure</span>
-          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #e8ecf1' }} />
+          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid var(--border)' }} />
+          <span style={{ color: 'var(--text-placeholder)', fontSize: '13px' }}>oppure</span>
+          <hr style={{ flex: 1, border: 'none', borderTop: '1px solid var(--border)' }} />
         </div>
 
         <form onSubmit={handleLocalLogin}>
@@ -89,7 +110,7 @@ export default function Login() {
               required
             />
           </div>
-          {error && <p style={{ color: '#e53e3e', fontSize: '14px', marginBottom: '16px' }}>{error}</p>}
+          {error && <p style={{ color: 'var(--badge-error-text)', fontSize: '14px', marginBottom: '16px' }}>{error}</p>}
           <button type="submit" disabled={loading} style={loginBtnStyle}>
             {loading ? 'Accesso...' : 'Accedi (Admin Locale)'}
           </button>
@@ -102,8 +123,8 @@ export default function Login() {
 const azureBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '12px',
-  background: '#0078d4',
-  color: 'white',
+  background: 'var(--ms-blue)',
+  color: 'var(--bg-card)',
   border: 'none',
   borderRadius: '6px',
   fontSize: '15px',
@@ -115,14 +136,14 @@ const labelStyle: React.CSSProperties = {
   display: 'block',
   marginBottom: '6px',
   fontSize: '14px',
-  color: '#555',
+  color: 'var(--text-secondary)',
   fontWeight: 500,
 };
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '10px 12px',
-  border: '1px solid #ddd',
+  border: '1px solid var(--input-border)',
   borderRadius: '6px',
   fontSize: '14px',
   boxSizing: 'border-box',
@@ -131,8 +152,8 @@ const inputStyle: React.CSSProperties = {
 const loginBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '12px',
-  background: '#00BCD4',
-  color: 'white',
+  background: 'var(--brand-cyan)',
+  color: 'var(--bg-card)',
   border: 'none',
   borderRadius: '6px',
   fontSize: '15px',

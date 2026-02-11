@@ -24,7 +24,7 @@ export default function AuthCallback() {
   if (error) {
     return (
       <div style={{ padding: '48px', textAlign: 'center' }}>
-        <p style={{ color: '#e53e3e' }}>{error}</p>
+        <p style={{ color: 'var(--badge-error-text)' }}>{error}</p>
         <a href="/login">Torna al login</a>
       </div>
     );
